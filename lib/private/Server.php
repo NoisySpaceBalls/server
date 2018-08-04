@@ -273,6 +273,10 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias('SystemTagManager', \OCP\SystemTag\ISystemTagManager::class);
 
+		$this->registerService(MemoryInfo::class, function() {
+			return new MemoryInfo();
+		});
+
 		$this->registerService(\OCP\SystemTag\ISystemTagObjectMapper::class, function (Server $c) {
 			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
@@ -2028,5 +2032,15 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getRemoteInstanceFactory() {
 		return $this->query(IInstanceFactory::class);
+	}
+
+	/**
+	 * Returns a MemoryInfo instance.
+	 *
+	 * @return MemoryInfo
+	 * @throws \OCP\AppFramework\QueryException
+	 */
+	public function getMemoryInfo(): MemoryInfo {
+		return $this->query(MemoryInfo::class);
 	}
 }
